@@ -20,7 +20,7 @@ QuitonX is a macOS menu-bar companion that watches for apps with no open windows
 
 If you have a released build:
 
-1. Download the latest release artifact (e.g., a `.dmg`).
+1. Download the latest release artifact.
 2. Drag **QuitonX** into the **Applications** folder.
 3. Open **QuitonX** from Applications.
 4. If macOS blocks the app, go to **System Settings → Privacy & Security** and choose **Open Anyway**.
