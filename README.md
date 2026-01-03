@@ -15,8 +15,7 @@ QuitonX is a macOS menu-bar companion that watches for apps with no open windows
 ## Requirements
 
 - macOS with Accessibility permissions enabled for QuitonX.
-- Notification permission if you want action notifications.
-
+  
 ## Installation
 
 If you have a released build:
