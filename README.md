@@ -10,7 +10,7 @@ QuitonX is a macOS menu-bar companion that watches for apps with no open windows
 - Automatically quits apps once they have no open windows.
 - Optional protection against quitting the current frontmost app.
 - Adjustable confirmation delay before termination.
-- Launch at login and optional notifications for performed actions.
+- Launch at login.
 
 ## Requirements
 
