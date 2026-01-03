@@ -2,7 +2,7 @@
 
 QuitonX is a macOS menu-bar companion that watches for apps with no open windows and quits them automatically. It uses Accessibility APIs to observe window events, then terminates windowless apps after a short confirmation delay, keeping your desktop tidy and your Dock clean.
 
-⚠️ Note: QuitonX skips certain system apps (like Finder and System Settings) and won’t terminate itself.
+⚠️ Note: QuitonX doesnt support every app yet, i noticed that for example Discord doesnt work.
 
 ## Highlights
 
