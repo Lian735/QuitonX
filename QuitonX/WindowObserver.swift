@@ -29,44 +29,15 @@ final class WindowObserver {
     }
 
     private func hasAppWindowsByCGWindowList(pid: pid_t) -> Bool {
-        guard let allInfo = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] else {
+        guard let infoList = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] else {
             return false
         }
-        let displayBounds = activeDisplayBounds()
-        for info in allInfo {
+        for info in infoList {
             guard let ownerPid = info[kCGWindowOwnerPID as String] as? Int, ownerPid == Int(pid) else {
                 continue
             }
             let layer = info[kCGWindowLayer as String] as? Int ?? 0
-            let isOnscreen = info[kCGWindowIsOnscreen as String] as? Bool ?? false
-            guard layer == 0, !isOnscreen else { continue }
-            guard let boundsDict = info[kCGWindowBounds as String] as? CFDictionary,
-                  let bounds = CGRect(dictionaryRepresentation: boundsDict) else {
-                continue
-            }
-            if isFullscreen(bounds: bounds, displayBounds: displayBounds) {
-                return true
-            }
-        }
-        return false
-    }
-
-    private func activeDisplayBounds() -> [CGRect] {
-        var displayCount: UInt32 = 0
-        var result = CGGetActiveDisplayList(0, nil, &displayCount)
-        guard result == .success, displayCount > 0 else { return [] }
-        var displayIDs = [CGDirectDisplayID](repeating: 0, count: Int(displayCount))
-        result = CGGetActiveDisplayList(displayCount, &displayIDs, &displayCount)
-        guard result == .success else { return [] }
-        return displayIDs.map { CGDisplayBounds($0) }
-    }
-
-    private func isFullscreen(bounds: CGRect, displayBounds: [CGRect]) -> Bool {
-        let tolerance: CGFloat = 2.0
-        for display in displayBounds {
-            let widthMatch = abs(bounds.size.width - display.size.width) <= tolerance
-            let heightMatch = abs(bounds.size.height - display.size.height) <= tolerance
-            if widthMatch && heightMatch {
+            if layer == 0 {
                 return true
             }
         }
