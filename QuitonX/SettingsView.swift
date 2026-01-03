@@ -160,6 +160,17 @@ struct SettingsView: View {
                         .fill(.ultraThinMaterial)
                         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12))
                 )
+                HStack {
+                    Link(destination: URL(string: "https://www.moysoft.com")!) {
+                        Image("moysoftfull")
+                            .resizable()
+                            .interpolation(.high)      // aktiviert weiches Blending
+                            .antialiased(true)         // glättet Kanten
+                            .scaledToFit()
+                            .frame(height: 25)
+                    }
+                    Spacer()
+                }
             }
             .padding(16)
         }
