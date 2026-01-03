@@ -27,6 +27,22 @@ final class WindowObserver {
         guard let a = a, let b = b else { return false }
         return CFEqual(a, b)
     }
+
+    private func hasAppWindowsByCGWindowList(pid: pid_t) -> Bool {
+        guard let infoList = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] else {
+            return false
+        }
+        for info in infoList {
+            guard let ownerPid = info[kCGWindowOwnerPID as String] as? Int, ownerPid == Int(pid) else {
+                continue
+            }
+            let layer = info[kCGWindowLayer as String] as? Int ?? 0
+            if layer == 0 {
+                return true
+            }
+        }
+        return false
+    }
     
     func evaluateAndTerminateIfWindowless(pid: pid_t) {
         guard let app = NSRunningApplication(processIdentifier: pid) else { return }
@@ -47,6 +63,10 @@ final class WindowObserver {
                 let count2 = (windows2 as? [Any])?.count ?? 0
                 self.logger.debug("[Single-Recheck] App \(app.localizedName ?? "unknown") PID: \(pid) has \(count2) windows. AXError: \(String(describing: err2.rawValue))")
                 if count2 == 0 {
+                    if self.hasAppWindowsByCGWindowList(pid: pid) {
+                        self.logger.debug("[Single] Abort terminate for \(app.localizedName ?? "unknown") PID: \(pid) — windows found via CGWindowList.")
+                        return
+                    }
                     let terminated = app.terminate()
                     self.logger.log("[Single] Terminating app \(app.localizedName ?? "unknown") PID: \(pid) with zero windows: \(terminated ? "success" : "failure")")
                 } else {
@@ -169,6 +189,10 @@ final class WindowObserver {
             logger.debug("App \(app.localizedName ?? "unknown") PID: \(app.processIdentifier) has \(count) windows. AXError: \(String(describing: err.rawValue))")
 
             if count == 0 {
+                if hasAppWindowsByCGWindowList(pid: app.processIdentifier) {
+                    logger.debug("Skipping termination for \(app.localizedName ?? "unknown") PID: \(app.processIdentifier) — windows found via CGWindowList.")
+                    continue
+                }
                 let terminated = app.terminate()
                 logger.log("Terminating app \(app.localizedName ?? "unknown") PID: \(app.processIdentifier) with zero windows: \(terminated ? "success" : "failure")")
             }
