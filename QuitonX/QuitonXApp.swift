@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct QuitonXApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+          Settings {
+              SettingsView()
+          }
+          .windowResizability(.automatic)         // allow the window to be resizable
+          .defaultSize(width: 560, height: 420)   // pick a sensible starting size
     }
 }
