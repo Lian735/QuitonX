@@ -1,9 +1,17 @@
 {
+  "id": "quitonx",
+  "name": "QuitonX",
+  "subtitle": "Really quit apps.",
+  "description": "You know when sometimes you want to quit an app but it still stays open in the dock? QuitonX fixes that issue.",
+  "category": "Utility",
+  "platform": "macOS",
+  "logo": "moysoft/previews/logo.png",
   "previews": [
-    "previews/screen1.png",
-    "previews/screen2.png"
+    "screen1.png",
+    "screen2.png"
   ],
   "highlights": [
-    "Really close apps when closing them.",
-  ]
+    "Really close apps when closing them."
+  ],
 }
+
