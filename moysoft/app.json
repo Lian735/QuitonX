@@ -1,7 +1,7 @@
 {
   "previews": [
-    "screen1.png",
-    "screen2.png"
+    "previews/screen1.png",
+    "previews/screen2.png"
   ],
   "highlights": [
     "Really close apps when closing them."
